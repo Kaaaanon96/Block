@@ -5,7 +5,7 @@ using UnityEngine;
 public class ball : MonoBehaviour {
 
 	//　初期スピード
-	private float speed = 20.0f;
+	private float speed = 15.0f;
 
 	// Use this for initialization
 	void Start () {
