@@ -8,8 +8,10 @@ public class BlockControl : MonoBehaviour {
 	public Transform blockPrefab;
 	// 上の壁を山椒
 	public Transform topWall;
-	// 壁を並べる数を指定
+	// 壁を並べる数を指定(横)
 	public int placeX;
+	// 壁を並べる数を指定(縦)
+	public int placeZ;
 
 	// Use this for initialization
 	void Start () {
@@ -25,15 +27,25 @@ public class BlockControl : MonoBehaviour {
 
 		//幅を調整
 		Vector3 localscale = blockPrefab.localScale;
-		localscale.x = topWall.localScale.x / placeX;	// X軸のみ書き換え
+		localscale.x = topWall.localScale.x / placeX;	// 配置する壁のX軸の長さ
 		blockPrefab.localScale = localscale;			// blockPrefabに代入
 
+
 		//配置
-		for (int i = 0; i < placeX; i++)
+		// 横にplaceXこ並べて、縦にplaceZこ並べる
+		for(int i = 0; i < placeZ; i++)
 		{
-			Instantiate(blockPrefab, placePosition, q);
-			placePosition.x += blockPrefab.transform.localScale.x;
+			// 並べるZ軸の位置の指定
+			Vector3 currentPlacePosition = placePosition - Vector3.forward * blockPrefab.localScale.z * i;
+			for (int y = 0; y < placeX; y++)
+			{
+				// X軸(横)にそって並べる
+				// InstantiateでblockPrefabをcurrentPlacePositionの位置にqの回転角で設置.
+				Instantiate(blockPrefab, currentPlacePosition, q);
+				currentPlacePosition.x += blockPrefab.transform.localScale.x;
+			}
 		}
+
 
 	}
 	
